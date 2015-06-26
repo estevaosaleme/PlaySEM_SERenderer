@@ -1,0 +1,1 @@
+Use -Dcom.sun.xml.internal.bind.v2.runtime.JAXBContextImpl.fastBoot=true
