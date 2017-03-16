@@ -99,7 +99,7 @@ public class SEMParser implements Runnable {
 		if (SERendererDevice.debugMode){
 			for (int i = 0; i < timeLineActions.size(); i++)
 				System.out.println(timeLineActions.get(i).getOccursTime() + ": " + SerialMessage.messageToString(timeLineActions.get(i).getSerialMessage()));
-			System.out.println("Ready for start...");
+			System.out.println("Ready to start...");
 			System.out.println("---");
 		}
 		SERendererDevice.timeLine.setActions(timeLineActions, duration);
