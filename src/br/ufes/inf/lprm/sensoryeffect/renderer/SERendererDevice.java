@@ -112,7 +112,7 @@ public class SERendererDevice implements Runnable {
             upnpService.getRegistry().addDevice(createDevice());
 
         } catch (Exception ex) {
-            System.err.println("Exception occured: " + ex);
+            System.err.println("An exception has occured: " + ex);
             ex.printStackTrace(System.err);
             System.exit(1);
         }
@@ -144,7 +144,7 @@ public class SERendererDevice implements Runnable {
 	    	return new LocalDevice(identity, type, details, icon, seRendererService);
 	    }
 	    catch (Exception e) {
-	    	System.out.print("Exception occured: " + e.getMessage());
+	    	System.out.print("An exception has occured: " + e.getMessage());
 	    	e.printStackTrace();
 	    	return null;
 	    }

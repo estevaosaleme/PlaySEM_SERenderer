@@ -51,26 +51,26 @@ public class TimeLine extends java.util.TimerTask {
 	public void pause(long newCurrentTime){
 		status = Status.PAUSED;
 		if (SERendererDevice.debugMode)
-			System.out.println(">>> SetPause on " + currentTime);
+			System.out.println(">>> SetPause at " + currentTime);
 		currentTime = newCurrentTime;
 		if (SERendererDevice.debugMode)
-			System.out.println(">>> PAUSE on " + newCurrentTime);
+			System.out.println(">>> PAUSE at " + newCurrentTime);
 	}
 	
 	public void play(long newCurrentTime){
 		status = Status.PLAYING;
 		if (SERendererDevice.debugMode)
-			System.out.println(">>> SetPlay on " + currentTime);
+			System.out.println(">>> SetPlay at " + currentTime);
 		currentTime = newCurrentTime;
 		if (SERendererDevice.debugMode)
-			System.out.println(">>> PLAY on " + newCurrentTime);
+			System.out.println(">>> PLAY at " + newCurrentTime);
 	}
 	
 	public void setCurrentTime(long newCurrentTime){
 		tempTimeLineActions.clear();
 		tempTimeLineActions.addAll(timeLineActions);
 		if (SERendererDevice.debugMode)
-			System.out.println(">>> SetCurrentTime on " + currentTime);
+			System.out.println(">>> SetCurrentTime at " + currentTime);
 		currentTime = newCurrentTime;
 		if (SERendererDevice.debugMode)
 			System.out.println(">>> CURRENT TIME " + newCurrentTime);

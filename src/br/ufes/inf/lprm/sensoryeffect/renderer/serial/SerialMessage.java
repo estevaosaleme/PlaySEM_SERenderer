@@ -154,7 +154,7 @@ public class SerialMessage {
 		resetVib();
 		resetFan();	
 		if (SERendererDevice.debugMode){
-			System.out.println("Devices reseted");
+			System.out.println("Devices have been reset");
 			System.out.println("---");
 		}
 	}

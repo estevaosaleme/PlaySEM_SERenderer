@@ -49,7 +49,7 @@ public class SerialCom {
 			}
 		}
 		catch (UnsatisfiedLinkError e) {
-			System.err.println("ERROR: RXTX not configured properly");
+			System.err.println("ERROR: RXTX was not configured properly");
 		} catch (UnsupportedCommOperationException e) {
 			System.err.println("ERROR: Unsupported operation.");
 			e.printStackTrace();
