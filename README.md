@@ -2,7 +2,7 @@
 
 The **PlaySEM Sensory Effects Renderer (SER)** allows developers to add multi-stimuli in their own multimedia applications by interacting with it without needing to know how to process sensory effect metadata and manipulate sensory effects hardware. It provides a bus of services (UPnP, CoAP, MQTT, and WebSocket) for timeline (e.g. video players) or event-based applications (e.g. games) to integrate with it.
 
-Related papers: 
+**Related papers**: 
 * [PlaySEM: a Platform for Rendering MulSeMedia Compatible with MPEG-V](http://dx.doi.org/10.1145/2820426.2820450) - Webmedia'15
 * [An Event-Driven Approach to Integrating Multi-sensory Effects to Interactive Environments](https://doi.org/10.1109/SMC.2015.178) - IEEE SMC'15
 * [Time Evaluation for the Integration of a Gestural Interactive Application with a Distributed Mulsemedia Platform](https://doi.org/10.1145/3083187.3084013) - ACM MMSys'17
