@@ -6,7 +6,7 @@ The **PlaySEM Sensory Effects Renderer (SER)** allows developers to add multi-st
 * [PlaySEM: a Platform for Rendering MulSeMedia Compatible with MPEG-V](http://dx.doi.org/10.1145/2820426.2820450) - Webmedia'15
 * [An Event-Driven Approach to Integrating Multi-sensory Effects to Interactive Environments](https://doi.org/10.1109/SMC.2015.178) - IEEE SMC'15
 * [Time Evaluation for the Integration of a Gestural Interactive Application with a Distributed Mulsemedia Platform](https://doi.org/10.1145/3083187.3084013) - ACM MMSys'17
-* Improving Response Time Interval in Networked Event-Based Mulsemedia Systems - ACM MMSys'18 (in press)
+* [Improving Response Time Interval in Networked Event-Based Mulsemedia Systems](http://www.mmsys2018.org/program/accepted-papers) - ACM MMSys'18 (in press)
 
 # Pre-requisites
 * Java 1.7 or greater (http://www.java.com/en/download)
