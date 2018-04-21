@@ -1,6 +1,6 @@
 # Intro
 
-The **PlaySEM Sensory Effects Renderer (SER)** allows developers to add multi-stimuli in their own multimedia applications by interacting with it without needing to know how to process sensory effect metadata and manipulate sensory effects hardware. It provides a bus of services (UPnP, CoAP, MQTT, and WebSocket) for timeline (e.g. video players) or event-based applications (e.g. games) to integrate with it.
+**PlaySEM Sensory Effects Renderer (SER) 1.1.0** allows developers to add multi-stimuli in their own multimedia applications by interacting with it without needing to know how to process sensory effect metadata and manipulate sensory effects hardware. It provides a bus of services (UPnP, CoAP, MQTT, and WebSocket) for timeline (e.g. video players) or event-based applications (e.g. games) to integrate with it. **_Version 2.0.0 is coming with much more and totally redesigned!_**
 
 **Related papers**: 
 * SALEME, E. B.; SANTOS, C. A. S.; GHINEA, G., [Improving Response Time Interval in Networked Event-Based Mulsemedia Systems](http://www.mmsys2018.org/program/accepted-papers), ACM MMSys'18 (in press)
@@ -8,7 +8,7 @@ The **PlaySEM Sensory Effects Renderer (SER)** allows developers to add multi-st
 * SANTOS, C. A. S.; NETO, A. N. R.; SALEME, E. B., [An Event-Driven Approach to Integrating Multi-sensory Effects to Interactive Environments](https://doi.org/10.1109/SMC.2015.178), IEEE SMC'15.
 * SALEME, E. B.; SANTOS, C. A. S., [PlaySEM: a Platform for Rendering MulSeMedia Compatible with MPEG-V](http://dx.doi.org/10.1145/2820426.2820450), WebMedia '15.
 
-# Pre-requisites
+# Prerequisites
 * Java 1.7 or greater (http://www.java.com/en/download)
 * RXTX library (http://rxtx.qbang.org/wiki/index.php/Installation or http://www.agaveblue.org/howtos/Comm_How-To.shtml). Not required for emulation.
 
