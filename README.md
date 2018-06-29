@@ -3,8 +3,8 @@
 **PlaySEM Sensory Effects Renderer (SER) 1.1.0** allows developers to add multi-stimuli in their own multimedia applications by interacting with it without needing to know how to process sensory effect metadata and manipulate sensory effects hardware. It provides a bus of services (UPnP, CoAP, MQTT, and WebSocket) for timeline (e.g. video players) or event-based applications (e.g. games) to integrate with it. **_Version 2.0.0 is coming with much more and totally redesigned!_**
 
 **Related papers**: 
-* SALEME, E. B.; SANTOS, C. A. S.; GHINEA, G., [Improving Response Time Interval in Networked Event-Based Mulsemedia Systems](http://www.mmsys2018.org/program/accepted-papers), ACM MMSys'18 (in press)
-* SALEME, E. B.; CELESTRINI, J. R.; SANTOS, C. A. S., [Time Evaluation for the Integration of a Gestural Interactive Application with a Distributed Mulsemedia Platform](https://doi.org/10.1145/3083187.3084013), ACM MMSys'17
+* SALEME, E. B.; SANTOS, C. A. S.; GHINEA, G., [Improving Response Time Interval in Networked Event-Based Mulsemedia Systems](https://doi.org/10.1145/3204949.3204965), ACM MMSys'18.
+* SALEME, E. B.; CELESTRINI, J. R.; SANTOS, C. A. S., [Time Evaluation for the Integration of a Gestural Interactive Application with a Distributed Mulsemedia Platform](https://doi.org/10.1145/3083187.3084013), ACM MMSys'17.
 * SANTOS, C. A. S.; NETO, A. N. R.; SALEME, E. B., [An Event-Driven Approach to Integrating Multi-sensory Effects to Interactive Environments](https://doi.org/10.1109/SMC.2015.178), IEEE SMC'15.
 * SALEME, E. B.; SANTOS, C. A. S., [PlaySEM: a Platform for Rendering MulSeMedia Compatible with MPEG-V](http://dx.doi.org/10.1145/2820426.2820450), WebMedia '15.
 
