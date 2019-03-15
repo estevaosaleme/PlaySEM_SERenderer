@@ -20,7 +20,7 @@ If you do not intend to use real devices, just set it up to use mock devices. If
 # Running:
 * [Download](https://github.com/estevaosaleme/PlaySEM_SERenderer/releases) the last release
 * Uncompress the file **PlaySEM_SERenderer_< version >.zip**
-* Configure the file **SERenderer.xml** (pay attention to it to avoid mistakes when starting the framework)
+* Configure the file **SERenderer.xml** properly (pay attention to it to avoid mistakes when starting the framework)
 * Run the command `java -jar PlaySEM_SERenderer.jar -Dcom.sun.xml.internal.bind.v2.runtime.JAXBContextImpl.fastBoot=true` (Please, check if you need to update the name of the jar file)
 
 # Configuration (SERenderer.xml):<br />
