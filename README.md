@@ -27,6 +27,6 @@ If you do not intend to use real devices, just set it up to use mock devices. If
 Please refer to the article "X" (to appear soon) to configure the framework before using it. 
 ***
 Please, report any application crash (or bug) via [issue tracker](https://github.com/estevaosaleme/PlaySEM_SERenderer/issues).<br /><br />
-Need a SE Video Player? Visit the **PlaySEM SE Video Player** repository at https://github.com/estevaosaleme/PlaySEM_SEVideoPlayer<br />
+Need a SE Video Player? Visit the **PlaySEM SE VP** repository at https://github.com/estevaosaleme/PlaySEM_SEVideoPlayer<br />
 Need an older version of PlaySEM SER? Visit **releases** at https://github.com/estevaosaleme/PlaySEM_SERenderer/releases<br />
 
