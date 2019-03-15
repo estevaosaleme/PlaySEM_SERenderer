@@ -5,13 +5,14 @@ import org.eclipse.californium.core.CoapServer;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 
 import br.ufes.inf.lprm.sensoryeffect.renderer.SERendererBroker;
-import br.ufes.inf.lprm.sensoryeffect.renderer.SEServiceBase;
+import br.ufes.inf.lprm.sensoryeffect.renderer.service.SEServiceBase;
 import br.ufes.inf.lprm.sensoryeffect.renderer.service.websocket.SERendererWebSocketService;
 
 public class SERendererCoapService extends SEServiceBase {
 	
 	private static SERendererWebSocketService webSocketService = new SERendererWebSocketService();
 	
+	@Override
 	public void init() {
 		
 		new Thread(new Runnable() {

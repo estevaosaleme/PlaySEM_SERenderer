@@ -23,16 +23,33 @@ import org.fourthline.cling.model.meta.ModelDetails;
 import org.fourthline.cling.model.types.DeviceType;
 import org.fourthline.cling.model.types.UDADeviceType;
 import org.fourthline.cling.model.types.UDN;
+import org.fourthline.cling.registry.RegistrationException;
 
-import br.ufes.inf.lprm.sensoryeffect.renderer.SEServiceBase;
-import br.ufes.inf.lprm.sensoryeffect.renderer.timer.TimeLine;
-import br.ufes.inf.lprm.sensoryeffect.renderer.timer.TimeLine.Status;
+import br.ufes.inf.lprm.sensoryeffect.renderer.service.SEServiceBase;
+import br.ufes.inf.lprm.sensoryeffect.renderer.timer.MainTimeLine;
+import br.ufes.inf.lprm.sensoryeffect.renderer.timer.MainTimeLine.Status;
 
 @UpnpService(
     serviceId = @UpnpServiceId("RendererControl"),
     serviceType = @UpnpServiceType(value = "RendererControl", version = 1)
 )
 public class SERendererUPnPService extends SEServiceBase {
+	
+	@Override
+	public void init() {
+		try {
+			final org.fourthline.cling.UpnpService upnpService = new org.fourthline.cling.UpnpServiceImpl();
+	        Runtime.getRuntime().addShutdownHook(new Thread() {
+	            @Override
+	            public void run() {
+	                upnpService.shutdown();
+	            }
+	        });
+			upnpService.getRegistry().addDevice(SERendererUPnPService.createDevice());
+		} catch (RegistrationException | LocalServiceBindingException | ValidationException | IOException e) {
+			e.printStackTrace();
+		}		
+	}
 	
 private static PropertyChangeSupport propertyChangeSupport = null;
 	
@@ -127,8 +144,8 @@ private static PropertyChangeSupport propertyChangeSupport = null;
 	}
 	
 	@UpnpAction @Override
-	public void setCleanEventList() {
-		super.setCleanEventList();
+	public void setClearEventList() {
+		super.setClearEventList();
 	}
 	
 	@UpnpAction @Override
@@ -159,7 +176,7 @@ private static PropertyChangeSupport propertyChangeSupport = null;
 			String newHexCenter,
 			@UpnpInputArgument(name = "HexRight") 
 			String newHexRight) {
-		if (lightAutoExtraction && TimeLine.status.getId() == Status.PLAYING.getId()){
+		if (lightAutoExtraction && MainTimeLine.getStatus().getId() == Status.PLAYING.getId()){
 			hexLeft = newHexLeft;
 			hexCenter = newHexCenter;
 			hexRight = newHexRight;

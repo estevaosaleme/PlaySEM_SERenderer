@@ -1,169 +1,194 @@
 package br.ufes.inf.lprm.sensoryeffect.renderer;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.Date;
-import java.util.Properties;
+import java.util.HashMap;
 import java.util.Timer;
+import java.util.Vector;
 
 import javax.xml.bind.JAXBContext;
 
-import org.fourthline.cling.UpnpService;
-import org.fourthline.cling.UpnpServiceImpl;
 import org.iso.mpeg.mpegv._2010.sedl.SEM;
 
-import br.ufes.inf.lprm.sensoryeffect.renderer.parser.SEMParser;
-import br.ufes.inf.lprm.sensoryeffect.renderer.serial.SerialCom;
-import br.ufes.inf.lprm.sensoryeffect.renderer.service.coap.SERendererCoapService;
-import br.ufes.inf.lprm.sensoryeffect.renderer.service.mqtt.SERendererMqttService;
-import br.ufes.inf.lprm.sensoryeffect.renderer.service.upnp.SERendererUPnPService;
-import br.ufes.inf.lprm.sensoryeffect.renderer.service.websocket.SERendererWebSocketService;
-import br.ufes.inf.lprm.sensoryeffect.renderer.timer.TimeLine;
+import br.ufes.inf.lprm.sensoryeffect.renderer.connectivity.ConnectivityBase;
+import br.ufes.inf.lprm.sensoryeffect.renderer.device.SensoryEffectDeviceBase;
+import br.ufes.inf.lprm.sensoryeffect.renderer.metadata.parser.mpegv.MPEGVSEMParser;
+import br.ufes.inf.lprm.sensoryeffect.renderer.service.SEServiceBase;
+import br.ufes.inf.lprm.sensoryeffect.renderer.timer.MainTimeLine;
 import br.ufes.inf.lprm.utils.Utils;
 
 public class SERendererBroker implements Runnable {
 
-	public static TimeLine timeLine = new TimeLine();
-	private static final File configFile = new File("config.properties");
-	static Properties configProps;
-	public static boolean debugMode = false;
-	private static String capabilitiesMetadata = "";
-	private static CommunicationMode communicationMode = CommunicationMode.UNDEFINED;
+	private static final File xmlConfigurationFile = new File("SERenderer.xml");
+	private static String communicationServiceBroker = "";
+	private static String communicationServiceClass = "";
+	public static String metadataParserClass = "";
+	private static Vector<String> capabilityDevices = new Vector<String>();
 	
+	public static boolean debugMode = false;
+	public static MainTimeLine timeLine = new MainTimeLine();
 	public static SEServiceBase service = null;
 	
+	public static HashMap<String, SensoryEffectDeviceBase> sensoryEffectDevices = new HashMap<String, SensoryEffectDeviceBase>();
+	public static SensoryEffectDeviceBase lightDevice = null;
+	public static SensoryEffectDeviceBase windDevice = null;
+	public static SensoryEffectDeviceBase vibrationDevice = null;
+	public static SensoryEffectDeviceBase scentDevice = null;
+	
+	public static HashMap<String, ConnectivityBase> deviceConnectivities = new HashMap<String, ConnectivityBase>();
+
 	public static void main(String[] args) throws Exception {
+		// It checks if an instance is already running
 		if (Utils.checkIfAlreadyRunning()) {
 			System.err.println("There is an instance of the PlaySEM Sensory Effects Renderer (SER) running. It is not possible to run two instances at the same time on the same machine. Please, check it out and try to run it again.");
 			System.exit(1);
 		}
 		
-		SEMParser.jaxbContext = JAXBContext.newInstance(SEM.class);
-		String capabilitiesXmlResource = "br/ufes/inf/lprm/sensoryeffect/renderer/capabilities.xml";
-		capabilitiesMetadata = fileToBuffer(Thread.currentThread().getContextClassLoader().getResourceAsStream(capabilitiesXmlResource));
+		// When shutting it down do the following
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			public void run() {
+				System.out.println("Shutting down...");
+				for (ConnectivityBase connectivity : deviceConnectivities.values()) {
+					connectivity.closeConnection();
+				}
+				System.out.println("Application terminated.");
+			}
+		});
 		
-		Properties defaultProps = new Properties();
-		if (configFile.exists()){
-			InputStream inputStream = new FileInputStream(configFile);
-			configProps = new Properties(defaultProps);
-			configProps.load(inputStream);
-			SerialCom.port = configProps.getProperty("serial_port");
-			communicationMode = CommunicationMode.valueOf(configProps.getProperty("communicationMode").trim());
-			if ("1".equalsIgnoreCase(configProps.getProperty("emulateDevices")) || "yes".equalsIgnoreCase(configProps.getProperty("emulateDevices")) || 
-                    "true".equalsIgnoreCase(configProps.getProperty("emulateDevices")) || "on".equalsIgnoreCase(configProps.getProperty("emulateDevices")))
-				SerialCom.emulateDevices = true;
-			else
-				SerialCom.emulateDevices = false;
-			if ("1".equalsIgnoreCase(configProps.getProperty("debugMode")) || "yes".equalsIgnoreCase(configProps.getProperty("debugMode")) || 
-                    "true".equalsIgnoreCase(configProps.getProperty("debugMode")) || "on".equalsIgnoreCase(configProps.getProperty("debugMode")))
-				debugMode = true;
-			else
-				debugMode = false;
-			inputStream.close();
+		MPEGVSEMParser.jaxbContext = JAXBContext.newInstance(SEM.class);
+		
+		// It reads the configuration file SERenderer.xml
+		if (xmlConfigurationFile.exists()){
+			debugMode = Boolean.valueOf(Utils.getConfigurationValue("debugMode", "", "/configuration/debugMode", xmlConfigurationFile));
+			
+			communicationServiceBroker = Utils.getConfigurationValue("communicationServiceBroker", "", "/configuration/communicationServiceBroker", xmlConfigurationFile);
+			communicationServiceClass = Utils.getConfigurationValue("communicationServiceClass", communicationServiceBroker, "/configuration/communicationServices/communicationService/id", xmlConfigurationFile);
+			
+			String metadataParser = Utils.getConfigurationValue("metadataParser", "", "/configuration/metadataParser", xmlConfigurationFile);
+			metadataParserClass = Utils.getConfigurationValue("metadataParserClass", metadataParser, "/configuration/metadataParsers/metadataParser/id", xmlConfigurationFile);
+			
+			// It reads devices' configurations and their connectivities
+			lightDevice = setupDevice("lightDevice");
+			windDevice = setupDevice("windDevice");
+			vibrationDevice = setupDevice("vibrationDevice");
+			scentDevice = setupDevice("scentDevice");
+
+			// It establishes connectivities
+			for (ConnectivityBase connectivity : deviceConnectivities.values()) {
+				connectivity.openConnection();
+			}
+			
+			lightDevice.resetDevice();
+			windDevice.resetDevice();
+			vibrationDevice.resetDevice();
+			scentDevice.resetDevice();
 		}
 		else {
-			configProps = new Properties(defaultProps);
-			configProps.setProperty("serial_port", "COM3");
-			configProps.setProperty("emulateDevices", "true");
-			configProps.setProperty("debugMode", "true");
-			configProps.setProperty("communicationMode", "UPNP");
-			SerialCom.port = configProps.getProperty("serial_port");
-			SerialCom.emulateDevices = Boolean.parseBoolean(configProps.getProperty("emulateDevices"));
-			debugMode = Boolean.parseBoolean(configProps.getProperty("debugMode"));
-			communicationMode = CommunicationMode.valueOf(configProps.getProperty("communicationMode").trim());
-			OutputStream outputStream = new FileOutputStream(configFile);
-			configProps.store(outputStream, "PlaySEM SE Renderer - Settings");
-			outputStream.close();
+			System.err.println("Please certify that the file 'SERenderer.xml' exists and it is properly configured.");
+			System.exit(1);
 		}
+		
+		// It starts a thread for the broker
 		Thread serverThread = new Thread(new SERendererBroker());
         serverThread.setDaemon(false);
         serverThread.start();
         
+        // It sets a timer
         int interval = 1;
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(timeLine, new Date(), interval);
     }
 	
-	private static String fileToBuffer(InputStream is) throws IOException {
-	    StringBuilder sb = new StringBuilder("");
-	    try (BufferedReader rdr = new BufferedReader(new InputStreamReader(is))) { 
-	        for (int c; (c = rdr.read()) != -1;) {
-	            sb.append((char) c);
-	        }
-	    }
-	    return sb.toString();
+	private static SensoryEffectDeviceBase setupDevice(String deviceType) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
+		String device = Utils.getConfigurationValue(deviceType, "", "/configuration/"+deviceType, xmlConfigurationFile);
+		String deviceClass = Utils.getConfigurationValue("deviceClass", device, "/configuration/devices/device/id", xmlConfigurationFile);
+		Class<?> clazzSensoryEffectDevice = Class.forName(deviceClass);
+		SensoryEffectDeviceBase sensoryEffectDeviceBase = (SensoryEffectDeviceBase)clazzSensoryEffectDevice.newInstance();
+		sensoryEffectDeviceBase.setId(device);
+		HashMap<String, String> deviceProperties = Utils.getConfigurationListValues("properties", device, "/configuration/devices/device/id", xmlConfigurationFile);
+		sensoryEffectDeviceBase.setProperties(deviceProperties);
+		
+		String deviceConnectivityInterface = Utils.getConfigurationValue("connectivityInterface", device, "/configuration/devices/device/id", xmlConfigurationFile);
+		String sensoryEffectDeviceConnectivityInterfaceClass = Utils.getConfigurationValue("connectivityInterfaceClass", deviceConnectivityInterface, "/configuration/connectivityInterfaces/connectivityInterface/id", xmlConfigurationFile);
+		Class<?> clazzSensoryEffectDeviceConnectivityInterface = Class.forName(sensoryEffectDeviceConnectivityInterfaceClass);
+		if (deviceConnectivities.get(deviceConnectivityInterface) == null) {
+			ConnectivityBase clazzDeviceConnectivityBase = (ConnectivityBase)clazzSensoryEffectDeviceConnectivityInterface.newInstance();
+			HashMap<String, String> connectivityProperties = Utils.getConfigurationListValues("properties", deviceConnectivityInterface, "/configuration/connectivityInterfaces/connectivityInterface/id", xmlConfigurationFile);
+			clazzDeviceConnectivityBase.setProperties(connectivityProperties);
+			deviceConnectivities.put(deviceConnectivityInterface, clazzDeviceConnectivityBase);
+		}
+		
+		String capabilityXmlResource = deviceClass.replaceAll("\\.", "/");
+		capabilityXmlResource = capabilityXmlResource.substring(0, capabilityXmlResource.lastIndexOf("/")).substring(0, capabilityXmlResource.lastIndexOf("/"));
+		if (!capabilityDevices.contains(capabilityXmlResource))
+			capabilityDevices.addElement(capabilityXmlResource);
+		
+		sensoryEffectDeviceBase.setDeviceConnectivity(deviceConnectivities.get(deviceConnectivityInterface));
+		sensoryEffectDevices.put(device, sensoryEffectDeviceBase);
+		return sensoryEffectDeviceBase;
+	}
+	
+	private static String getCapatilities() throws IOException {
+		String capabilities = "";
+		String capabilitiesHeadXmlResource = "br/ufes/inf/lprm/sensoryeffect/renderer/device/capabilitiesHead.xml";
+		capabilities = Utils.fileToBuffer(Thread.currentThread().getContextClassLoader().getResourceAsStream(capabilitiesHeadXmlResource));
+		for (String capabilityXmlResourceItem : capabilityDevices) {
+			String capabilityXmlResourceBody = capabilityXmlResourceItem + "/capabilityBody.xml";
+			capabilities += Utils.fileToBuffer(Thread.currentThread().getContextClassLoader().getResourceAsStream(capabilityXmlResourceBody));
+		}
+		String capabilitiesTailXmlResource = "br/ufes/inf/lprm/sensoryeffect/renderer/device/capabilitiesTail.xml";
+		capabilities += Utils.fileToBuffer(Thread.currentThread().getContextClassLoader().getResourceAsStream(capabilitiesTailXmlResource));
+		return capabilities;
+	}
+	
+	private void calculateDelayChain() {
+		int delayService = 0;
+		if (service.getProperties() !=null && service.getProperties().containsKey("delay"))
+			delayService = Integer.parseInt(service.getProperties().get("delay"));
+
+		for (SensoryEffectDeviceBase device : sensoryEffectDevices.values()) {	
+			int delayDevice = 0;
+			int delayDeviceConnectivity = 0;
+			if (device.getProperties() !=null && device.getProperties().containsKey("delay"))
+				delayDevice = Integer.parseInt(device.getProperties().get("delay"));
+			
+			if (device.getDeviceConnectivity() != null && device.getDeviceConnectivity().getProperties() !=null 
+					&& device.getDeviceConnectivity().getProperties().containsKey("delay")) 
+				delayDeviceConnectivity = Integer.parseInt(device.getDeviceConnectivity().getProperties().get("delay"));
+		
+			device.setDelayChainToBeCompensated(delayService + delayDevice + delayDeviceConnectivity);
+			
+			System.out.println("Delay to be compensated for '"+service.getClass().getSimpleName() + "', '"+
+					device.getDeviceConnectivity().getClass().getSimpleName() + "', '"+
+					device.getClass().getSimpleName()+ "' : " +
+					delayService + " + "+
+					delayDeviceConnectivity + " + "+
+					delayDevice + " = " + device.getDelayChainToBeCompensated() + "ms");
+		}	
 	}
 
     public void run() {
-    	switch (communicationMode) {
-    	case UPNP : {
-	    	service = new SERendererUPnPService();
-	    	service.setCapabilitiesMetadata(capabilitiesMetadata);
-	    	try {
-	            final UpnpService upnpService = new UpnpServiceImpl();
-	            Runtime.getRuntime().addShutdownHook(new Thread() {
-	                @Override
-	                public void run() {
-	                    upnpService.shutdown();
-	                }
-	            });
-	            upnpService.getRegistry().addDevice(SERendererUPnPService.createDevice());
-	        } catch (Exception ex) {
-	            System.err.println("An exception has occured: " + ex);
-	            ex.printStackTrace(System.err);
-	            System.exit(1);
-	        }
-    	}
-    	break;
-    	case WEBSOCKET : {
-	    	try {
-	    		service = new SERendererWebSocketService();
-		    	service.setCapabilitiesMetadata(capabilitiesMetadata);
-		    	((SERendererWebSocketService)service).init();
-	        } catch (Exception ex) {
-	            System.err.println("An exception has occured: " + ex);
-	            ex.printStackTrace(System.err);
-	            System.exit(1);
-	        }
-    	}
-    	break;
-    	case COAP : {
-	    	try {
-	    		service = new SERendererCoapService();
-		    	service.setCapabilitiesMetadata(capabilitiesMetadata);
-		    	((SERendererCoapService)service).init();
-	        } catch (Exception ex) {
-	            System.err.println("An exception has occured: " + ex);
-	            ex.printStackTrace(System.err);
-	            System.exit(1);
-	        }
-    	}
-    	break;
-    	case MQTT : {
-	    	try {
-	    		service = new SERendererMqttService();
-		    	service.setCapabilitiesMetadata(capabilitiesMetadata);
-		    	((SERendererMqttService)service).init();
-	        } catch (Exception ex) {
-	            System.err.println("An exception has occured: " + ex);
-	            ex.printStackTrace(System.err);
-	            System.exit(1);
-	        }
-    	}
-    	break;
-    	default : {
-    		try {
-				throw new Exception("The communication mode is not set up properly. Please check it out.");
+    	try {
+    		Class<?> clazz = Class.forName(communicationServiceClass);
+        	service = (SEServiceBase)clazz.newInstance();
+        	// It gets service properties
+        	HashMap<String, String> serviceProperties = Utils.getConfigurationListValues("properties", communicationServiceBroker, "/configuration/communicationServices/communicationService/id", xmlConfigurationFile);
+        	service.setProperties(serviceProperties);
+        	// It provides capabilities through the broker
+        	service.setCapabilitiesMetadata(getCapatilities());
+        	// It initialises the service
+        	service.init();
+        	// It calculates the delay chain to be compensated
+        	calculateDelayChain();
+        } catch (Exception ex) {
+			try {
+				throw new Exception("The communication mode is not set up properly. Please check it out. ");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-    	}
-    	}
+            ex.printStackTrace(System.err);
+            System.exit(1);
+        }
     }
 }

@@ -10,7 +10,7 @@ import org.json.simple.JSONValue;
 import org.json.simple.parser.ParseException;
 
 import br.ufes.inf.lprm.sensoryeffect.renderer.SERendererBroker;
-import br.ufes.inf.lprm.sensoryeffect.renderer.SEServiceBase;
+import br.ufes.inf.lprm.sensoryeffect.renderer.service.SEServiceBase;
 import io.moquette.interception.AbstractInterceptHandler;
 import io.moquette.interception.InterceptHandler;
 import io.moquette.interception.messages.InterceptPublishMessage;
@@ -88,23 +88,29 @@ public class SERendererMqttService extends SEServiceBase {
 		return bytes;
 	}
 
-	public void init() throws InterruptedException, IOException {
+	@Override
+	public void init() {
 		IResourceLoader classpathLoader = new ClasspathResourceLoader();
         final IConfig classPathConfig = new ResourceLoaderConfig(classpathLoader);
         mqttBroker = new Server();
         List<? extends InterceptHandler> userHandlers = Collections.singletonList(new PublisherListener());
-        mqttBroker.startServer(classPathConfig, userHandlers);
-		System.out.println("Moquette mqtt SERendererBroker started.");
+        try {
+			mqttBroker.startServer(classPathConfig, userHandlers);
 		
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			@Override
-			public void run() {
-				System.out.println("Stopping broker..");
-				mqttBroker.stopServer();
-				System.out.println("Broker stopped");
-			}
-		});
-		Thread.sleep(4000);
+			System.out.println("Moquette mqtt SERendererBroker started.");
+			
+			Runtime.getRuntime().addShutdownHook(new Thread() {
+				@Override
+				public void run() {
+					System.out.println("Stopping broker...");
+					mqttBroker.stopServer();
+					System.out.println("Broker stopped");
+				}
+			});
+			Thread.sleep(4000);
+        } catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

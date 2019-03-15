@@ -8,7 +8,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
-import br.ufes.inf.lprm.sensoryeffect.renderer.SEServiceBase;
+import br.ufes.inf.lprm.sensoryeffect.renderer.service.SEServiceBase;
 
 
 public class SERendererWebSocketService extends SEServiceBase
@@ -16,6 +16,7 @@ public class SERendererWebSocketService extends SEServiceBase
 	ServletContextHandler context = null;
 	Server server = null;
 	
+	@Override
     public void init() {
     	BasicConfigurator.configure();
 	    server = new Server(8080);

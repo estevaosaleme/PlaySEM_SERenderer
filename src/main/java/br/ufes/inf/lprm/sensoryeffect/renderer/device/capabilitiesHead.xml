@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cidl:ControlInfo 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns="urn:mpeg:mpeg-v:2010:01-CIDL-NS"
+		xmlns:mpeg7="urn:mpeg:mpeg7:schema:2004" 
+		xmlns:dia="urn:mpeg:mpeg21:2003:01-DIA-NS" 
+		xmlns:cidl="urn:mpeg:mpeg-v:2010:01-CIDL-NS" 
+		xmlns:dcdv="urn:mpeg:mpeg-v:2010:01-DCDV-NS" 
+		xmlns:ct="urn:mpeg:mpeg-v:2010:01-CT-NS"
+		xsi:schemaLocation="urn:mpeg:mpeg-v:2010:01-CIDL-NS http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-V_schema_files/MPEG-V-CIDL.xsd urn:mpeg:mpeg-v:2010:01-DCDV-NS http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-V_schema_files/MPEG-V-DCDV.xsd">
+	<cidl:SensoryDeviceCapabilityList>

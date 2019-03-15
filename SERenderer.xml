@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+	<!-- Main configuration -->
+	<communicationServiceBroker>websocketService</communicationServiceBroker>
+	<metadataParser>mpegvParser</metadataParser>
+	<lightDevice>mockLight</lightDevice>
+	<windDevice>mockWind</windDevice>
+	<!-- <windDevice>arduinoWindDevice</windDevice> -->
+	<vibrationDevice>mockVibration</vibrationDevice>
+	<scentDevice>mockScent</scentDevice> 
+	<!-- <scentDevice>blunoScentDevice</scentDevice>  -->
+	<!-- <scentDevice>exhaliaScentDevice</scentDevice>  -->
+	<debugMode>true</debugMode>
+
+	<!-- Communication services -->
+	<communicationServices>
+		<communicationService>
+			<id>coapService</id>
+			<communicationServiceClass>br.ufes.inf.lprm.sensoryeffect.renderer.service.coap.SERendererCoapService</communicationServiceClass>
+		</communicationService>
+		<communicationService>
+			<id>mqttService</id>
+			<communicationServiceClass>br.ufes.inf.lprm.sensoryeffect.renderer.service.mqtt.SERendererMqttService</communicationServiceClass>
+		</communicationService>
+		<communicationService>
+			<id>upnpService</id>
+			<communicationServiceClass>br.ufes.inf.lprm.sensoryeffect.renderer.service.upnp.SERendererUPnPService</communicationServiceClass>
+		</communicationService>
+		<communicationService>
+			<id>websocketService</id>
+			<communicationServiceClass>br.ufes.inf.lprm.sensoryeffect.renderer.service.websocket.SERendererWebSocketService</communicationServiceClass>
+		</communicationService>
+	</communicationServices>
+	
+	<!-- Metadata parsers -->
+	<metadataParsers>
+		<metadataParser>
+			<id>mpegvParser</id>
+			<metadataParserClass>br.ufes.inf.lprm.sensoryeffect.renderer.metadata.parser.mpegv.MPEGVSEMParser</metadataParserClass>
+		</metadataParser>
+	</metadataParsers>
+	
+	<!-- Supported devices -->
+	<devices>
+		<!-- Mock devices - it prints the results on the console -->
+		<device>
+			<id>mockLight</id>
+			<deviceClass>br.ufes.inf.lprm.sensoryeffect.renderer.device.mock.MockLightDevice</deviceClass>
+			<connectivityInterface>Console</connectivityInterface>
+		</device>
+		<device>
+			<id>mockVibration</id>
+			<deviceClass>br.ufes.inf.lprm.sensoryeffect.renderer.device.mock.MockVibrationDevice</deviceClass>
+			<connectivityInterface>Console</connectivityInterface>
+		</device>
+		<device>
+			<id>mockWind</id>
+			<deviceClass>br.ufes.inf.lprm.sensoryeffect.renderer.device.mock.MockWindDevice</deviceClass>
+			<connectivityInterface>Console</connectivityInterface>
+			<properties>
+				<delay>0</delay>
+			</properties>
+		</device>
+		<device>
+			<id>mockScent</id>
+			<deviceClass>br.ufes.inf.lprm.sensoryeffect.renderer.device.mock.MockScentDevice</deviceClass>
+			<connectivityInterface>Console</connectivityInterface>
+			<properties>
+				<ScentSlot01>urn:mpeg:mpeg-v:01-SI-ScentCS-NS:rose</ScentSlot01>
+				<ScentSlot02>urn:mpeg:mpeg-v:01-SI-ScentCS-NS:cinnamon</ScentSlot02>
+				<ScentSlot03>urn:mpeg:mpeg-v:01-SI-ScentCS-NS:chocolate_dark</ScentSlot03>
+				<ScentSlot04>urn:mpeg:mpeg-v:01-SI-ScentCS-NS:rubbish_acrid</ScentSlot04>
+				<delay>0</delay>
+			</properties>
+		</device>
+		
+		<!-- Arduino Devices (Light, wind, vibration) -->
+		<device>
+			<id>arduinoLightDevice</id>
+			<deviceClass>br.ufes.inf.lprm.sensoryeffect.renderer.device.arduino.ArduinoLightDevice</deviceClass>
+			<connectivityInterface>Serial</connectivityInterface>
+		</device>
+		<device>
+			<id>arduinoVibrationDevice</id>
+			<deviceClass>br.ufes.inf.lprm.sensoryeffect.renderer.device.arduino.ArduinoVibrationDevice</deviceClass>
+			<connectivityInterface>Serial</connectivityInterface>
+		</device>
+		<device>
+			<id>arduinoWindDevice</id>
+			<deviceClass>br.ufes.inf.lprm.sensoryeffect.renderer.device.arduino.ArduinoWindDevice</deviceClass>
+			<connectivityInterface>Serial</connectivityInterface>
+			<properties>
+				<delay>500</delay>
+			</properties>
+		</device>
+		
+		<!-- Vortex Scent Device -->
+		<device>
+			<id>vortexScentDevice</id>
+			<deviceClass>br.ufes.inf.lprm.sensoryeffect.renderer.device.vortex.VortexScentDevice</deviceClass>
+			<connectivityInterface>SerialFTD2XX</connectivityInterface>
+			<properties>
+				<ScentSlot01>urn:mpeg:mpeg-v:01-SI-ScentCS-NS:burning_rubber</ScentSlot01>
+				<ScentSlot02>urn:mpeg:mpeg-v:01-SI-ScentCS-NS:lavender</ScentSlot02>
+				<ScentSlot03>urn:mpeg:mpeg-v:01-SI-ScentCS-NS:coffee_cream</ScentSlot03>
+				<ScentSlot04>urn:mpeg:mpeg-v:01-SI-ScentCS-NS:rubbish_acrid</ScentSlot04>
+				<delay>0</delay>
+			</properties>
+		</device>
+		
+		<!-- Exhalia Scent Device -->
+		<device>
+			<id>exhaliaScentDevice</id>
+			<deviceClass>br.ufes.inf.lprm.sensoryeffect.renderer.device.exhalia.ExhaliaScentDevice</deviceClass>
+			<connectivityInterface>Usb</connectivityInterface>
+			<properties>
+				<ScentSlot01>urn:mpeg:mpeg-v:01-SI-ScentCS-NS:burning_rubber</ScentSlot01>
+				<ScentSlot02>urn:mpeg:mpeg-v:01-SI-ScentCS-NS:lavender</ScentSlot02>
+				<ScentSlot03>urn:mpeg:mpeg-v:01-SI-ScentCS-NS:coffee_cream</ScentSlot03>
+				<ScentSlot04>urn:mpeg:mpeg-v:01-SI-ScentCS-NS:rubbish_acrid</ScentSlot04>
+				<delay>0</delay>
+				<increasedIntensity>false</increasedIntensity>
+			</properties>
+		</device>
+		
+		<!-- Bluno Scent Device -->
+		<device>
+			<id>blunoScentDevice</id>
+			<deviceClass>br.ufes.inf.lprm.sensoryeffect.renderer.device.bluno.BlunoScentDevice</deviceClass>
+			<connectivityInterface>WiFi</connectivityInterface>
+			<properties>
+				<delay>0</delay>
+			</properties>
+		</device>
+		
+		<!-- Android Devices (Light and vibration) -->
+		<device>
+			<id>sedroidLightDevice</id>
+			<deviceClass>br.ufes.inf.lprm.sensoryeffect.renderer.device.sedroid.SedroidLightDevice</deviceClass>
+			<connectivityInterface>Bluetooth</connectivityInterface>
+		</device>
+		<device>
+			<id>sedroidVibrationDevice</id>
+			<deviceClass>br.ufes.inf.lprm.sensoryeffect.renderer.device.sedroid.SedroidVibrationDevice</deviceClass>
+			<connectivityInterface>Bluetooth</connectivityInterface>
+		</device>
+	</devices>
+	
+	<!-- Connectivity interfaces -->
+	<connectivityInterfaces>
+		<connectivityInterface>
+			<id>Console</id>
+			<connectivityInterfaceClass>br.ufes.inf.lprm.sensoryeffect.renderer.connectivity.console.ConsoleOutput</connectivityInterfaceClass>
+			<earlyConnection>true</earlyConnection>
+		</connectivityInterface>
+		<connectivityInterface>
+			<id>Serial</id>
+			<connectivityInterfaceClass>br.ufes.inf.lprm.sensoryeffect.renderer.connectivity.serial.SerialOutput</connectivityInterfaceClass>
+			<earlyConnection>true</earlyConnection>
+			<properties>
+				<serialPort>COM3</serialPort>
+				<baudRate>9600</baudRate>
+			</properties>
+		</connectivityInterface>
+		<connectivityInterface>
+			<id>SerialFTD2XX</id>
+			<connectivityInterfaceClass>br.ufes.inf.lprm.sensoryeffect.renderer.connectivity.serial.FTD2XXOutput</connectivityInterfaceClass>
+			<earlyConnection>true</earlyConnection>
+			<properties>
+				<device01-id>67330049</device01-id>
+			</properties>
+		</connectivityInterface>
+		<connectivityInterface>
+			<id>Bluetooth</id>
+			<connectivityInterfaceClass>br.ufes.inf.lprm.sensoryeffect.renderer.connectivity.bluetooth.BluetoothOutput</connectivityInterfaceClass>
+			<earlyConnection>true</earlyConnection>
+			<properties>
+				<number-of-devices>1</number-of-devices>
+				<device01-connection-url>btspp://B4994C5024E1:5;authenticate=false;encrypt=false;master=false</device01-connection-url>
+				<device02-connection-url>btspp://4088058F7E2E:5;authenticate=false;encrypt=false;master=false</device02-connection-url>
+				<device03-connection-url>btspp://A816D0063584:5;authenticate=false;encrypt=false;master=false</device03-connection-url>
+				<device04-connection-url>btspp://A816D006351E:5;authenticate=false;encrypt=false;master=false</device04-connection-url>
+			</properties>
+		</connectivityInterface>
+		<connectivityInterface>
+			<id>WiFi</id>
+			<connectivityInterfaceClass>br.ufes.inf.lprm.sensoryeffect.renderer.connectivity.wifi.WiFiOutput</connectivityInterfaceClass>
+			<earlyConnection>true</earlyConnection>
+			<properties>
+				<number-of-devices>1</number-of-devices>
+				<device01-address>192.168.0.101:8080</device01-address>
+				<device02-address>90.0.0.107:8080</device02-address>
+				<device03-address>90.0.0.102:8080</device03-address>
+			</properties>
+		</connectivityInterface>
+		<connectivityInterface>
+			<id>Usb</id>
+			<connectivityInterfaceClass>br.ufes.inf.lprm.sensoryeffect.renderer.connectivity.usb.UsbOutput</connectivityInterfaceClass>
+			<earlyConnection>true</earlyConnection>
+			<properties>
+				<vendorId>0x1781</vendorId>
+				<productId>0x07D0</productId>
+				<usbInterface>0</usbInterface>
+				<inEndPoint>81</inEndPoint>
+				<outEndPoint>1</outEndPoint>
+				<timeout>5000</timeout>
+			</properties>
+		</connectivityInterface>
+	</connectivityInterfaces>
+	
+</configuration>

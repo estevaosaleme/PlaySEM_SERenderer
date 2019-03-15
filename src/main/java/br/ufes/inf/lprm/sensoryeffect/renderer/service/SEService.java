@@ -1,0 +1,40 @@
+package br.ufes.inf.lprm.sensoryeffect.renderer.service;
+
+public interface SEService {
+	public void init();
+	
+	public void setSem(String sensoryEffectMetadata, String duration);
+	
+	public void setSemEvent(String sensoryEffectMetadata, String duration, int eventId);
+	
+	public void setPlay(String newCurrentTime);
+	
+	public void setPlayEvent(int eventId);
+	
+	public void setClearEventList();
+	
+	public void setPause(String newCurrentTime);
+
+	public void setStop();
+		    
+	public void setCurrentTime(String newCurrentTime);
+	
+	public void setLightColors(String newHexLeft, String newHexCenter, String newHexRight);
+	
+	public void setLocalCurrentTime(long newCurrentTime);
+	
+	public void setCapabilitiesMetadata(String capabilitiesMetadata);
+	
+	public void setLightAutoExraction(Boolean newLightAutoExtraction);
+	
+	public void firePropertyChange(String propertyName, Object oldValue, Object newValue);
+	
+	public void setSemPrepared(Boolean value);
+	
+	public void setSemEventPrepared(int value);
+	
+	public String getCurrentTime();
+	
+	public String getCapabilitiesMetadata();
+
+}

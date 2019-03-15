@@ -1,0 +1,5 @@
+		<cidl:SensoryDeviceCapability xsi:type="dcdv:ScentCapabilityType" 
+			id="vortexScent01" maxIntensity="100" numOfLevels="1" locator="urn:mpeg:mpeg-v:01-
+			SI-LocationCS-NS:center">
+			<dcdv:Scent>urn:mpeg:mpeg-v:01-SI-ScentCS-NS:rose</dcdv:Scent>
+		</cidl:SensoryDeviceCapability>

@@ -25,6 +25,7 @@ public class SERendererWebSocketServletService {
     public void onWebSocketClose(int statusCode, String reason){
         session = null;
         remote = null;
+        System.out.println("Websocket connection closed. Reason:" + reason);
     }
 
     @OnWebSocketConnect
@@ -40,9 +41,14 @@ public class SERendererWebSocketServletService {
 
     @OnWebSocketError
     public void onWebSocketError(Throwable cause){
-
+    	System.out.println("Error:" + cause.getMessage());
     }
-
+    
+    @OnWebSocketMessage
+    public void onWebSocketBinary(byte[] payload, int offset, int length) {	
+    	onWebSocketText(new String(payload));
+    }
+    
     @OnWebSocketMessage
     public void onWebSocketText(String message){
         if (session != null && session.isOpen() && remote != null && !message.isEmpty()){ 
@@ -74,7 +80,7 @@ public class SERendererWebSocketServletService {
 		            SERendererBroker.service.setStop();
 	            }
 	            else if ((JSONArray)jsonObject.get("setCleanEventList") != null) {
-		            SERendererBroker.service.setCleanEventList();
+		            SERendererBroker.service.setClearEventList();
 	            }
 	            else if ((JSONArray)jsonObject.get("setSemEvent") != null) {
 	            	JSONArray setSemEventParams = (JSONArray)jsonObject.get("setSemEvent");
@@ -90,7 +96,7 @@ public class SERendererWebSocketServletService {
 		            SERendererBroker.service.setSem((String)sensoryEffectMetadata, (String)duration);
 	            }
 	            
-	            // It needs getCapabilitiesMetadata service
+	            // to do: implement the service getCapabilitiesMetadata()
             }
             catch(Exception e) {
             	System.out.println("An exception has occured: " + e.getMessage());
