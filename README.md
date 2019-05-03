@@ -2,7 +2,7 @@
 
 **PlaySEM Sensory Effects Renderer (SER) 2.0.0** became a framework for delivering sensory effects such as wind, smell, vibration, and light to heterogeneous systems. It deals with variability in Mulsemedia Systems following a set of architectural and design patterns to accommodate different profiles of communication, connectivity, and sensory eﬀects metadata standard according to the need of multimedia applications and devices available in the user’s environment. It provides a bus of services (UPnP, CoAP, MQTT, and WebSocket) for timeline (e.g. video players) or event-based applications (e.g. games) to integrate with it, and offers a set of connectivity protocols such as serial/usb/ftdi, wifi, ethernet, and bluetooth to connect with devices. 
 
-If you do not intend to use real devices, just set it up to use mock devices. If you do not use the MPEG-V standard, just create your own parser and change the strategy in the config file. You can adapt it to your taste. See the configuration section for more details. 
+If you do not intend to use real devices, just set it up to use mock devices. If you do not use the MPEG-V standard, just create your own parser and change the strategy in the config file. You can adapt it to your taste. See the configuration section and related papers for more details. 
 
 # Prerequisites
 * Java 1.8 or greater (http://www.java.com/en/download)<br/>
@@ -24,7 +24,7 @@ Need a SE Video Player? Visit the **PlaySEM SE VP** repository at https://github
 Need an older version of PlaySEM SER? Visit **releases** at https://github.com/estevaosaleme/PlaySEM_SERenderer/releases<br />
 
 
-**Related papers**: 
+# Related papers: 
 * SALEME, E. B.; SANTOS, C. A. S.; GHINEA, G., A Mulsemedia Framework for Delivering Sensory Effects to Heterogeneous Systems, *Multimedia Systems*, Springer, 2019. (in press)
 * SALEME, E. B.; COVACI, A.; MESFIN, G.; SANTOS, C. A. S.; GHINEA, G., Mulsemedia DIY: A Survey of Devices and a Tutorial for Building your own Mulsemedia Environment, *ACM Computing Surveys*, 2019. (in press)
 * SALEME, E. B.; SANTOS, C. A. S.; GHINEA, G., [Coping with the Challenges of Delivering Multiple Sensorial Media](https://doi.org/10.1109/MMUL.2018.2873565), *IEEE MultiMedia*, 2018.
