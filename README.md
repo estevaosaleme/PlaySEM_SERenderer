@@ -16,7 +16,7 @@ If you do not intend to use real devices, just set it up to use mock devices. If
 * Run the command `java -jar PlaySEM_SERenderer.jar -Dcom.sun.xml.internal.bind.v2.runtime.JAXBContextImpl.fastBoot=true` (Please, check if you need to update the name of the jar file)
 
 # Configuration (SERenderer.xml):<br />
-Please refer to the article "*A Mulsemedia Framework for Delivering Sensory Effects to Heterogeneous Systems*" (link to appear soon) to configure the framework before using it. 
+Please refer to the article *[A Mulsemedia Framework for Delivering Sensory Effects to Heterogeneous Systems](https://doi.org/10.1007/s00530-019-00618-8)* to configure the framework before using it. 
 
 ***
 Please, report any application crash (or bug) via [issue tracker](https://github.com/estevaosaleme/PlaySEM_SERenderer/issues).<br /><br />
@@ -25,7 +25,7 @@ Need an older version of PlaySEM SER? Visit **releases** at https://github.com/e
 
 
 # Related papers: 
-* SALEME, E. B.; SANTOS, C. A. S.; GHINEA, G., **A Mulsemedia Framework for Delivering Sensory Effects to Heterogeneous Systems**, *Multimedia Systems*, Springer, 2019. (in press)
+* SALEME, E. B.; SANTOS, C. A. S.; GHINEA, G., [A Mulsemedia Framework for Delivering Sensory Effects to Heterogeneous Systems](https://doi.org/10.1007/s00530-019-00618-8), *Multimedia Systems*, Springer, 2019.
 * SALEME, E. B.; COVACI, A.; MESFIN, G.; SANTOS, C. A. S.; GHINEA, G., **Mulsemedia DIY: A Survey of Devices and a Tutorial for Building your own Mulsemedia Environment**, *ACM Computing Surveys*, 2019. (in press)
 * SALEME, E. B.; SANTOS, C. A. S.; GHINEA, G., [Coping with the Challenges of Delivering Multiple Sensorial Media](https://doi.org/10.1109/MMUL.2018.2873565), *IEEE MultiMedia*, 2018.
 * SALEME, E. B.; SANTOS, C. A. S.; GHINEA, G., [Improving Response Time Interval in Networked Event-Based Mulsemedia Systems](https://doi.org/10.1145/3204949.3204965), *ACM MMSys'18*.
