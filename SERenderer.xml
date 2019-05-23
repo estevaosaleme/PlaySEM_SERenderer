@@ -2,15 +2,12 @@
 
 <configuration>
 	<!-- Main configuration -->
-	<communicationServiceBroker>websocketService</communicationServiceBroker>
+	<communicationServiceBroker>upnpService</communicationServiceBroker>
 	<metadataParser>mpegvParser</metadataParser>
 	<lightDevice>mockLight</lightDevice>
 	<windDevice>mockWind</windDevice>
-	<!-- <windDevice>arduinoWindDevice</windDevice> -->
 	<vibrationDevice>mockVibration</vibrationDevice>
 	<scentDevice>mockScent</scentDevice> 
-	<!-- <scentDevice>blunoScentDevice</scentDevice>  -->
-	<!-- <scentDevice>exhaliaScentDevice</scentDevice>  -->
 	<debugMode>true</debugMode>
 
 	<!-- Communication services -->
@@ -145,6 +142,23 @@
 			<deviceClass>br.ufes.inf.lprm.sensoryeffect.renderer.device.sedroid.SedroidVibrationDevice</deviceClass>
 			<connectivityInterface>Bluetooth</connectivityInterface>
 		</device>
+		
+		<!-- amBX Devices (Light, wind, vibration) -->
+		<device>
+			<id>ambxLightDevice</id>
+			<deviceClass>br.ufes.inf.lprm.sensoryeffect.renderer.device.ambx.AmbxLightDevice</deviceClass>
+			<connectivityInterface>Usb</connectivityInterface>
+		</device>
+		<device>
+			<id>ambxVibrationDevice</id>
+			<deviceClass>br.ufes.inf.lprm.sensoryeffect.renderer.device.ambx.AmbxVibrationDevice</deviceClass>
+			<connectivityInterface>Usb</connectivityInterface>
+		</device>
+		<device>
+			<id>ambxWindDevice</id>
+			<deviceClass>br.ufes.inf.lprm.sensoryeffect.renderer.device.ambx.AmbxWindDevice</deviceClass>
+			<connectivityInterface>Usb</connectivityInterface>
+		</device>
 	</devices>
 	
 	<!-- Connectivity interfaces -->
@@ -199,11 +213,11 @@
 			<connectivityInterfaceClass>br.ufes.inf.lprm.sensoryeffect.renderer.connectivity.usb.UsbOutput</connectivityInterfaceClass>
 			<earlyConnection>true</earlyConnection>
 			<properties>
-				<vendorId>0x1781</vendorId>
-				<productId>0x07D0</productId>
+				<vendorId>0x0471</vendorId>
+				<productId>0x083f</productId>
 				<usbInterface>0</usbInterface>
 				<inEndPoint>81</inEndPoint>
-				<outEndPoint>1</outEndPoint>
+				<outEndPoint>2</outEndPoint>
 				<timeout>5000</timeout>
 			</properties>
 		</connectivityInterface>

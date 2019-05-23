@@ -179,6 +179,20 @@ public abstract class SEServiceBase implements SEService {
 			lightMessageCenter.setLocation(ClassificationScheme.LOCATIONURIBASE +ClassificationScheme.LOC_X_CENTER);
 			byte[] messageCenter = SERendererBroker.lightDevice.formatMessage(lightMessageCenter);
 
+			LightMessage lightMessageCenterLeft = new LightMessage();
+			lightMessageCenterLeft.setRed(rgbCenter[0]);
+			lightMessageCenterLeft.setGreen(rgbCenter[1]);
+			lightMessageCenterLeft.setBlue(rgbCenter[2]);
+			lightMessageCenterLeft.setLocation(ClassificationScheme.LOCATIONURIBASE +ClassificationScheme.LOC_X_CENTERLEFT);
+			byte[] messageCenterLeft = SERendererBroker.lightDevice.formatMessage(lightMessageCenterLeft);
+			
+			LightMessage lightMessageCenterRight = new LightMessage();
+			lightMessageCenterRight.setRed(rgbCenter[0]);
+			lightMessageCenterRight.setGreen(rgbCenter[1]);
+			lightMessageCenterRight.setBlue(rgbCenter[2]);
+			lightMessageCenterRight.setLocation(ClassificationScheme.LOCATIONURIBASE +ClassificationScheme.LOC_X_CENTERRIGHT);
+			byte[] messageCenterRight = SERendererBroker.lightDevice.formatMessage(lightMessageCenterRight);
+			
 			LightMessage lightMessageRight = new LightMessage();
 			lightMessageRight.setRed(rgbRight[0]);
 			lightMessageRight.setGreen(rgbRight[1]);
@@ -188,6 +202,8 @@ public abstract class SEServiceBase implements SEService {
 			
 			SERendererBroker.lightDevice.getDeviceConnectivity().sendMessage(messageLeft);
 			SERendererBroker.lightDevice.getDeviceConnectivity().sendMessage(messageCenter);
+			SERendererBroker.lightDevice.getDeviceConnectivity().sendMessage(messageCenterLeft);
+			SERendererBroker.lightDevice.getDeviceConnectivity().sendMessage(messageCenterRight);
 			SERendererBroker.lightDevice.getDeviceConnectivity().sendMessage(messageRight);
 
 			if (SERendererBroker.debugMode)

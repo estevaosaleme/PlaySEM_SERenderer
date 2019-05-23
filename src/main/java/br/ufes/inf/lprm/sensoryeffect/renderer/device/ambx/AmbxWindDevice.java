@@ -1,4 +1,4 @@
-package br.ufes.inf.lprm.sensoryeffect.renderer.device.arduino;
+package br.ufes.inf.lprm.sensoryeffect.renderer.device.ambx;
 
 import java.util.Vector;
 
@@ -8,7 +8,7 @@ import br.ufes.inf.lprm.sensoryeffect.renderer.message.TimeLineDeviceCommand;
 import br.ufes.inf.lprm.sensoryeffect.renderer.message.WindMessage;
 import br.ufes.inf.lprm.sensoryeffect.renderer.metadata.parser.mpegv.ClassificationScheme;
 
-public class ArduinoWindDevice extends SensoryEffectDeviceBase {
+public class AmbxWindDevice extends SensoryEffectDeviceBase {
 
 	@Override
 	public Vector<TimeLineDeviceCommand> messageToDeviceCommand(SensoryEffectMessage sensoryEffectMessage) {
@@ -57,15 +57,26 @@ public class ArduinoWindDevice extends SensoryEffectDeviceBase {
 	@Override
 	public byte[] formatMessage(SensoryEffectMessage sensoryEffectMessage) {
 		WindMessage windMessage = (WindMessage)sensoryEffectMessage;
-		char command = 'F';
-		char deviceIndex = 0;
+
+		// fan p1, p2 (location), p3 (device type), p4 (intensity)
+		byte p1 =  (byte)0xA1;
+		byte deviceType = 0x01;
+		
+		final byte LEFT_FAN = 0x5B;
+		final byte RIGHT_FAN = 0x6B;
+			
+		byte location = 0;
 		if (windMessage.getLocation().startsWith(ClassificationScheme.LOCATIONURIBASE +ClassificationScheme.LOC_X_LEFT)){
-			deviceIndex = 1;
+			location = LEFT_FAN;
 		} 
 		else if (windMessage.getLocation().startsWith(ClassificationScheme.LOCATIONURIBASE +ClassificationScheme.LOC_X_RIGHT)){
-			deviceIndex = 2;
+			location = RIGHT_FAN;
 		}
-		byte[] message = {(byte)command,(byte)deviceIndex,(byte)((char)windMessage.getIntensity().intValue()),(byte)'.'}; 
+		else if (windMessage.getLocation().startsWith(ClassificationScheme.LOCATIONURIBASE +ClassificationScheme.LOC_EVERYWHERE)){
+			return new byte[] {0x076, LEFT_FAN, deviceType,(byte)((char)windMessage.getIntensity().intValue()), RIGHT_FAN, deviceType,(byte)((char)windMessage.getIntensity().intValue())};
+		}
+
+		byte[] message = {p1, location, deviceType,(byte)((char)windMessage.getIntensity().intValue())}; 
 		return message;
 	}
 }
