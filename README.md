@@ -20,7 +20,7 @@ Please refer to the article *[A Mulsemedia Framework for Delivering Sensory Effe
 
 ***
 Please, report any application crash (or bug) via [issue tracker](https://github.com/estevaosaleme/PlaySEM_SERenderer/issues).<br /><br />
-Need a SE Video Player? Visit the **PlaySEM SE VP** repository at https://github.com/estevaosaleme/PlaySEM_SEVideoPlayer<br />
+Need a compatible Video Player for sensory effects? Visit the **PlaySEM SE VP** repository at https://github.com/estevaosaleme/PlaySEM_SEVideoPlayer<br />
 Need an older version of PlaySEM SER? Visit **releases** at https://github.com/estevaosaleme/PlaySEM_SERenderer/releases<br />
 
 
