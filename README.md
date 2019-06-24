@@ -27,7 +27,7 @@ Need an older version of PlaySEM SER? Visit **releases** at https://github.com/e
 # Related papers: 
 * SALEME, E. B.; SANTOS, C. A. S.; GHINEA, G., [A Mulsemedia Framework for Delivering Sensory Effects to Heterogeneous Systems](https://doi.org/10.1007/s00530-019-00618-8), *Multimedia Systems*, Springer, 2019.
 * SALEME, E. B.; COVACI, A.; MESFIN, G.; SANTOS, C. A. S.; GHINEA, G., [Mulsemedia DIY: A Survey of Devices and a Tutorial for Building your own Mulsemedia Environment](https://doi.org/10.1145/3319853), *ACM Computing Surveys*, 2019.
-* SALEME, E. B.; SANTOS, C. A. S.; GHINEA, G., [Coping with the Challenges of Delivering Multiple Sensorial Media](https://doi.org/10.1109/MMUL.2018.2873565), *IEEE MultiMedia*, 2018.
+* SALEME, E. B.; SANTOS, C. A. S.; GHINEA, G., [Coping with the Challenges of Delivering Multiple Sensorial Media](https://doi.org/10.1109/MMUL.2018.2873565), *IEEE MultiMedia*, 2019.
 * SALEME, E. B.; SANTOS, C. A. S.; GHINEA, G., [Improving Response Time Interval in Networked Event-Based Mulsemedia Systems](https://doi.org/10.1145/3204949.3204965), *ACM MMSys'18*.
 * SALEME, E. B.; CELESTRINI, J. R.; SANTOS, C. A. S., [Time Evaluation for the Integration of a Gestural Interactive Application with a Distributed Mulsemedia Platform](https://doi.org/10.1145/3083187.3084013), *ACM MMSys'17*.
 * SALEME, E. B.; SANTOS, C. A. S., [PlaySEM: a Platform for Rendering MulSeMedia Compatible with MPEG-V](http://dx.doi.org/10.1145/2820426.2820450), *WebMedia'15*.
